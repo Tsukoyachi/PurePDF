@@ -1,0 +1,27 @@
+{
+  "name": "purepdf",
+  "version": "1.0.0",
+  "description": "The backend of a webapp made to modify PDF without messing with your data",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Tsukoyachi/PurePDF.git"
+  },
+  "author": "Axel Delille",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tsukoyachi/PurePDF/issues"
+  },
+  "homepage": "https://github.com/Tsukoyachi/PurePDF#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "multer": "^1.4.5-lts.1",
+    "pdf-lib": "^1.17.1",
+    "uuid": "^10.0.0"
+  }
+}
