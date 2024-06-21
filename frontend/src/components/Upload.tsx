@@ -73,12 +73,12 @@ const UploadPage: React.FC<UploadPageProps> = ({ onUploadSuccess }) => {
         onDrop={handleDrop}
       >
         {uploading ? 'Uploading...' : 'Click to browse file or drag and drop your PDF file here'}
-        {file && (
+      </label>
+      {file && (
           <p className="mt-1 text-sm truncate" title={file.name}>
             Selected file: {file.name}
           </p>
         )}
-      </label>
       <button
         onClick={handleUpload}
         disabled={!file || uploading}
