@@ -18,7 +18,7 @@ RUN npm install
 COPY . .
 
 # Expose the port your app runs on
-EXPOSE 3000
+EXPOSE 3001
 
 # Command to run your backend server using Node.js
 CMD ["npm", "start"]
