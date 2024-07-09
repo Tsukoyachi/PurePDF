@@ -1,7 +1,7 @@
 const { renameSync, readFileSync, writeFileSync, existsSync } = require('fs');
 const { PDFDocument, PDFName, rgb } = require('pdf-lib');
 
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 
 function removePage(pdfDoc, pageIndex) {
   const pages = pdfDoc.getPages();
@@ -39,12 +39,28 @@ async function mergePDFs(pdfPaths, newId) {
 // Function to compress PDF using Ghostscript
 async function compressPDFWithGhostscript(inputPath, outputPath) {
   return new Promise((resolve, reject) => {
-    const command = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${outputPath} ${inputPath}`;
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(`Error compressing PDF: ${stderr}`);
-      } else {
+    const args = [
+      '-sDEVICE=pdfwrite',
+      '-dCompatibilityLevel=1.4',
+      '-dPDFSETTINGS=/screen',
+      '-dNOPAUSE',
+      '-dQUIET',
+      '-dBATCH',
+      `-sOutputFile=${outputPath}`,
+      inputPath
+    ];
+
+    const gs = spawn('gs', args);
+
+    gs.on('error', (error) => {
+      reject(`Error compressing PDF: ${error.message}`);
+    });
+
+    gs.on('close', (code) => {
+      if (code === 0) {
         resolve(outputPath);
+      } else {
+        reject(`Ghostscript process exited with code ${code}`);
       }
     });
   });
