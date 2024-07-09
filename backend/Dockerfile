@@ -2,11 +2,12 @@
 FROM node:20.14.0
 
 # Install Ghostscript
-RUN apt-get update && \
-    apt-get install -y ghostscript
+RUN apt-get update \
+    && apt-get install -y ghostscript \
+    && apt-get clean
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /app    
 
 # Copy package.json and package-lock.json
 COPY package*.json ./

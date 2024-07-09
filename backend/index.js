@@ -41,7 +41,7 @@ function idToFilePath(id) {
   return fs.existsSync(filePath) ? filePath : undefined;
 }
 
-var app = express();
+const app = express();
 app.use(express.json()); 
 
 const port = 3001;
