@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    container_name: purepdf_backend
+    networks:
+      - purepdf
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    container_name: purepdf_frontend
+    networks:
+      - purepdf
+
+networks:
+  purepdf:
+    driver: bridge

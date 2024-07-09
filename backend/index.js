@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const multer = require('multer');
 
 const { v4: uuidv4 } = require('uuid');
@@ -43,6 +44,13 @@ function idToFilePath(id) {
 var app = express();
 app.use(express.json()); 
 
+const port = 3001;
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  headers: ['Content-Type', 'Authorization']
+}));
 
 const upload = multer({ dest: './pdf/' });
 
@@ -173,6 +181,6 @@ app.post('/compressPDF/:id', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
