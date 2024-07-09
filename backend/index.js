@@ -41,6 +41,19 @@ function idToFilePath(id) {
   return fs.existsSync(filePath) ? filePath : undefined;
 }
 
+function isPDF(fileBuffer) {
+  // Check if the file buffer starts with '%PDF'
+  const pdfMagicNumbers = [0x25, 0x50, 0x44, 0x46]; // corresponds to '%PDF'
+
+  for (let i = 0; i < pdfMagicNumbers.length; i++) {
+    if (fileBuffer[i] !== pdfMagicNumbers[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 const app = express();
 app.use(express.json()); 
 
@@ -52,11 +65,35 @@ app.use(cors({
   headers: ['Content-Type', 'Authorization']
 }));
 
-const upload = multer({ dest: './pdf/' });
+// Define the maximum file size in bytes (e.g., 100 MB)
+const MAX_FILE_SIZE = 100 * 1024 * 1024;
+
+// Set up multer with destination and file size limit
+const upload = multer({
+  dest: './pdf/',
+  limits: { fileSize: MAX_FILE_SIZE },
+  fileFilter: (req, file, cb) => {
+    // Check Content-Type
+    if (file.mimetype !== 'application/pdf') {
+      return cb(new Error('Invalid file format. Only PDFs are allowed.'));
+    }
+
+    cb(null, true);
+  }
+});
 
 app.post('/upload', upload.single('pdf'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  // Check magic byte
+  const fileBuffer = fs.readFileSync(req.file.path);
+  if(fileBuffer === undefined) {
+    throw new Error('The file buffer is empty, please retry.');
+  }
+  if (!isPDF(fileBuffer)) {
+    throw new Error('Invalid file format. Only PDFs are allowed.');
   }
 
   const fileId = uuidv4();
