@@ -2,7 +2,7 @@
 
 import { jest } from '@jest/globals';
 import fs from 'fs';
-import { compressPDF } from '../pdf.js';
+import { compressPDF } from '../src/pdf.js';
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),

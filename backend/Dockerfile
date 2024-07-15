@@ -21,8 +21,8 @@ COPY package*.json ./
 RUN npm install --ignore-scripts
 
 # Copy the rest of the backend code
-COPY ./index.js index.js
-COPY ./pdf.js pdf.js
+COPY ./src/index.js index.js
+COPY ./src/pdf.js pdf.js
 
 # Set file permissions
 RUN chown -R nodejs:nodejs /app

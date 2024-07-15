@@ -1,6 +1,6 @@
 'use strict';
 
-import { idToFilePath } from '../pdf';
+import { idToFilePath } from '../src/pdf.js';
 import fs from 'fs';
 import { jest } from '@jest/globals';
 
@@ -27,7 +27,6 @@ describe("idToFilePath tests", () => {
 
   it("Shouldn't return a filepath when the file doesn't exists", () => {
     const id = '12345';
-    const expectedPath = `./pdf/${id}.pdf`;
 
     existsSyncMock.mockReturnValueOnce(false);
 

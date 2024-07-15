@@ -1,6 +1,6 @@
 'use strict';
 
-import { removePage } from '../pdf.js';
+import { removePage } from '../src/pdf.js';
 import { jest } from '@jest/globals';
 
 describe('removePage', () => {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { movePage } from '../pdf';
+import { movePage } from '../src/pdf.js';
 import { jest } from '@jest/globals';
 
 describe('movePage', () => {
