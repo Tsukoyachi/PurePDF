@@ -6,7 +6,7 @@ const multer = require('multer');
 
 const { v4: uuidv4 } = require('uuid');
 const { PDFDocument } = require('pdf-lib');
-const { removePage, movePage, mergePDFs, compressPDF } = require('./pdf'); // Import from pdf.js
+const { idToFilePath, removePage, movePage, mergePDFs, compressPDF } = require('./pdf'); // Import from pdf.js
 
 // Old pdf deletion
 // Schedule the deletion every hour and delete all pdf not modified since 1 hour
@@ -36,11 +36,6 @@ function deleteOldPDFs() {
 
 setInterval(deleteOldPDFs, 60 * 60 * 1000);
 
-function idToFilePath(id) {
-  const filePath = `./pdf/${id}.pdf`;
-  return fs.existsSync(filePath) ? filePath : undefined;
-}
-
 function isPDF(fileBuffer) {
   // Check if the file buffer starts with '%PDF'
   const pdfMagicNumbers = [0x25, 0x50, 0x44, 0x46]; // corresponds to '%PDF'
@@ -55,7 +50,8 @@ function isPDF(fileBuffer) {
 }
 
 const app = express();
-app.use(express.json()); 
+app.use(express.json());
+app.disable("x-powered-by"); 
 
 const port = 3001;
 

@@ -82,7 +82,7 @@ async function compressPDFWithGhostscript(inputPath, outputPath) {
       inputPath
     ];
 
-    const gs = spawn('gs', args);
+    const gs = spawn("/usr/bin/gs", args);
 
     gs.on('error', (error) => {
       reject(`Error compressing PDF: ${error.message}`);
